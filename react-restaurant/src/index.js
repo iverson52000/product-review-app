@@ -3,13 +3,17 @@ import ReactDOM from 'react-dom';
 // import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import AppProvider from './provider/AppProvider';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <AppProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </AppProvider>,
   document.getElementById('root')
 );
 

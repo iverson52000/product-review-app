@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
 import RestaurantCardList from "./components/RestaurantCardList";
-import DetailPage from "./components/DetailPage"
+import DetailPage from "./components/DetailPage";
 
+import { AppContext } from './provider/AppProvider';
 import './App.css';
 
 function App() {
-  const [route, setRoute] = useState("detail");
-  
+  // const [route, setRoute] = useState("detail");
+  const { route } = useContext(AppContext);
+
   return (
     <div className="container">
       { route === "home" ? (
