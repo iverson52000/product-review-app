@@ -1,26 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
 import RestaurantCard from './RestaurantCard';
 
-const testData = [
-    {
-        "id": 1,
-        "name": "American"
-    },
-    {
-        "id": 2,
-        "name": "Japanese"
-    },
-    {
-        "id": 3,
-        "name": "Korean"
-    }
-]
+import { AppContext } from '../provider/AppProvider';
 
-function RestaurantCardList() {    
+
+function RestaurantCardList() {
+    
+    const { restaurants } = useContext(AppContext);
+
     return (
       <div>
-        {testData.map((item, i) => {
-            return <RestaurantCard name={item.name} />
+        {restaurants.map((item, i) => {
+            return <RestaurantCard name={item.name} id={item.id} key={i}/>
         })}
       </div>   
     );

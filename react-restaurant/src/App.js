@@ -23,7 +23,6 @@ function App() {
           </>
         ) : (
           <> 
-            <h1 className="mt-5">Restaurant Detail</h1>
             <DetailPage/>
           </>
           
