@@ -7,15 +7,20 @@ export const AppContext = createContext({
     setRestaurants: () => { },
     reviews: [],
     setReviews: () => { },
-    restaurantId: 1,
+    restaurantId: 0,
     setRestaurantId: () => { },
+    comment: {},
+    setComment: () => { },
+    commentObj: {},
+    setCommentObj: () => { },
 });
 
 const AppProvider = ({ children }) => {
     const [route, setRoute] = useState("list");
     const [restaurants, setRestaurants] = useState([]);
     const [reviews, setReviews] = useState([]);
-    const [restaurantId, setRestaurantId] = useState(1);
+    const [restaurantId, setRestaurantId] = useState(0);
+    const [commentObj, setCommentObj] = useState({});
 
     useEffect(() => {
         const fetchRestaurants = async () => {
@@ -45,6 +50,38 @@ const AppProvider = ({ children }) => {
         fetchReviews();
     }, []);
 
+    const handleCommentChange = (event, commentObj) => {
+        const name = event.target.name;
+        let value = event.target.value;
+        const optionObj = {
+            option1: 1,
+            option2: 2,
+            option3: 3,
+            option4: 4,
+            option5: 5,
+        };
+
+        if (value in optionObj) {
+            value = optionObj[value]
+            setCommentObj((prevState) => (
+                {...prevState, [name]: value}
+            ));
+            // commentObj[name] = optionObj[value];
+        } else {
+            setCommentObj((prevState) => (
+                {...prevState, [name]: value}
+            ));
+        }   
+        console.log(commentObj);
+    }
+    
+    function handleCommentSubmit(event, restaurantId) {
+        event.preventDefault();
+        setCommentObj((prevState) => (
+            {...prevState, restaurant: restaurantId}
+        ));
+        console.log(commentObj);
+    };
 
     return (
         <AppContext.Provider
@@ -55,6 +92,9 @@ const AppProvider = ({ children }) => {
                 reviews,
                 restaurantId,
                 setRestaurantId,
+                commentObj,
+                handleCommentChange,
+                handleCommentSubmit,
             }}
         >
             {children}
