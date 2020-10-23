@@ -15,7 +15,7 @@ class Review(models.Model):
     date = models.DateField()
     comment = models.CharField(max_length=200)
 
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, related_name='reviews', on_delete=models.CASCADE)
 
-    # def __str__(self):
-    #     return self.restaurant
+    def __str__(self):
+        return str(self.restaurant)
