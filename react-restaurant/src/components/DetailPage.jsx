@@ -5,26 +5,21 @@ import { AppContext } from '../provider/AppProvider';
 
 function DetailPage() {
     
-    const { setRoute, reviews, restaurants, restaurantId } = useContext(AppContext);
-    // console.log(restaurants);
-    const curReviews = reviews.filter((obj) => {
-        return obj.restaurant === restaurantId;
-    })
+    const { setRoute, restaurants, restaurantId } = useContext(AppContext);
+
+    const curReviews = restaurants[restaurantId-1].reviews;
 
     curReviews.sort((a, b) => {
         let dateA = new Date(a.date);
         let dateB = new Date(b.date);
         return dateB-dateA;
     })
-    
-    console.log(curReviews);
-    
+        
     let avgRating = 0;
     let ratingObj = {
         max: [0, -1],  //[rating, index]
         min: [6, -1],
     };
-
 
     for (let i = 0; i < curReviews.length; i++) {
         let curRating = curReviews[i].rating; 
@@ -41,21 +36,20 @@ function DetailPage() {
         }
     }
 
-    avgRating = avgRating / curReviews.length;
-    avgRating = avgRating.toFixed(1);
+    avgRating = (avgRating/curReviews.length).toFixed(1);
     // console.log(ratingObj);
 
     if (restaurants.length === 0 || curReviews.length === 0) {
         return (
             <>
-                <button className="btn btn-link mt-5" onClick={() => {setRoute("list")}}>Back to list</button>
+                <button className="btn btn-link mt-3" onClick={() => {setRoute("list")}}>Back to list</button>
                 <h1>No reivews</h1> 
             </>
         )
     } else {
         return (
             <>
-                <button className="btn btn-link mt-5" onClick={() => {setRoute("list")}}>Back to list</button>
+                <button className="btn btn-link mt-3" onClick={() => {setRoute("list")}}>Back to list</button>
                 <h1>{restaurants[restaurantId-1].name}</h1>
                 <h4 className="mb-3">overall average rating: {avgRating}</h4>
                 <h4>Highest rated review</h4>

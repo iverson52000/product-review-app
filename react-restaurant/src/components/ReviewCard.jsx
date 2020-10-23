@@ -1,5 +1,5 @@
-import React, { useContext }from 'react';
-import { AppContext } from '../provider/AppProvider';
+import React from 'react';
+
 
 function ReviewCard({ curReview }) {
 
