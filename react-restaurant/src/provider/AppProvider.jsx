@@ -1,14 +1,14 @@
-import React, {createContext, useState, useEffect} from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const AppContext = createContext({
     route: "",
-    setRoute: () => {},
+    setRoute: () => { },
     restaurants: [],
-    setRestaurants: () => {},
+    setRestaurants: () => { },
     reviews: [],
-    setReviews: () => {},
+    setReviews: () => { },
     restaurantId: 1,
-    setRestaurantId: () => {},
+    setRestaurantId: () => { },
 });
 
 const AppProvider = ({ children }) => {
@@ -21,9 +21,19 @@ const AppProvider = ({ children }) => {
         const fetchRestaurants = async () => {
             const resp = await fetch('http://127.0.0.1:8000/viewset/restaurant/');
             const respJson = await resp.json();
-            // console.log(respJson);
-            setRestaurants(respJson);
+            return respJson;
         };
+
+        fetchRestaurants().then((data) => {
+            for (let item of data) {
+                const reviews = item.reviews;
+                item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
+            }
+            data.sort(function (a, b) {
+                return b.avgRating - a.avgRating;
+            })
+            setRestaurants(data);
+        });
 
         const fetchReviews = async () => {
             const resp = await fetch('http://127.0.0.1:8000/viewset/review/');
@@ -31,14 +41,13 @@ const AppProvider = ({ children }) => {
             // console.log(respJson);
             setReviews(respJson);
         };
-        
-        fetchRestaurants();
-        fetchReviews();
 
+        fetchReviews();
     }, []);
 
+
     return (
-        <AppContext.Provider 
+        <AppContext.Provider
             value={{
                 route,
                 setRoute,
