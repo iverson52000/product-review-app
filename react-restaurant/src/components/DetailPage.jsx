@@ -6,8 +6,12 @@ import { AppContext } from '../provider/AppProvider';
 function DetailPage() {
     
     const { setRoute, restaurants, restaurantId } = useContext(AppContext);
+    // console.log(restaurantId);
 
-    const curReviews = restaurants[restaurantId-1].reviews;
+    const curIndex = restaurants.findIndex((obj) => obj.id === restaurantId);
+    const curReviews = restaurants[curIndex].reviews;
+    // console.log(restaurants.findIndex((obj) => obj.id === restaurantId))
+
 
     curReviews.sort((a, b) => {
         let dateA = new Date(a.date);
@@ -50,7 +54,7 @@ function DetailPage() {
         return (
             <>
                 <button className="btn btn-link mt-3" onClick={() => {setRoute("list")}}>Back to list</button>
-                <h1>{restaurants[restaurantId-1].name}</h1>
+                <h1>{restaurants[curIndex].name}</h1>
                 <h4 className="mb-3">overall average rating: {avgRating}</h4>
                 <h4>Highest rated review</h4>
                 <ReviewCard curReview={curReviews[ratingObj.max[1]]}/>
