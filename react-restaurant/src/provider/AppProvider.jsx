@@ -18,39 +18,53 @@ export const AppContext = createContext({
 const AppProvider = ({ children }) => {
     const [route, setRoute] = useState("list");
     const [restaurants, setRestaurants] = useState([]);
-    const [reviews, setReviews] = useState([]);
+    // const [reviews, setReviews] = useState([]);
     const [restaurantId, setRestaurantId] = useState(0);
     const [commentObj, setCommentObj] = useState({});
 
+    const fetchRestaurants = async () => {
+        const resp = await fetch('http://127.0.0.1:8000/viewset/restaurant/');
+        const data = await resp.json();
+        // console.log(data);
+
+        for (let item of data) {
+            const reviews = item.reviews;
+            item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
+        }
+        data.sort(function (a, b) {
+            return b.avgRating - a.avgRating;
+        })
+        setRestaurants(data);
+    };
+
     useEffect(() => {
-        const fetchRestaurants = async () => {
-            const resp = await fetch('http://127.0.0.1:8000/viewset/restaurant/');
-            const respJson = await resp.json();
-            return respJson;
-        };
 
-        fetchRestaurants().then((data) => {
-            for (let item of data) {
-                const reviews = item.reviews;
-                item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
-            }
-            data.sort(function (a, b) {
-                return b.avgRating - a.avgRating;
-            })
-            setRestaurants(data);
-        });
+        fetchRestaurants();
 
-        const fetchReviews = async () => {
-            const resp = await fetch('http://127.0.0.1:8000/viewset/review/');
-            const respJson = await resp.json();
-            // console.log(respJson);
-            setReviews(respJson);
-        };
+        // fetchRestaurants().then((data) => {
+        //     for (let item of data) {
+        //         const reviews = item.reviews;
+        //         item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
+        //     }
+        //     data.sort(function (a, b) {
+        //         return b.avgRating - a.avgRating;
+        //     })
+        //     setRestaurants(data);
+        // });
 
-        fetchReviews();
+        // const fetchReviews = async () => {
+        //     const resp = await fetch('http://127.0.0.1:8000/viewset/review/');
+        //     const respJson = await resp.json();
+        //     // console.log(respJson);
+        //     setReviews(respJson);
+        // };
+
+        // fetchReviews();
     }, []);
 
-    const handleCommentChange = (event, commentObj) => {
+    const handleCommentChange = (event, commentObj, restaurantId) => {
+        if (!commentObj.hasOwnProperty('restaurant')) setCommentObj({ restaurant: restaurantId })
+
         const name = event.target.name;
         let value = event.target.value;
         const optionObj = {
@@ -64,23 +78,34 @@ const AppProvider = ({ children }) => {
         if (value in optionObj) {
             value = optionObj[value]
             setCommentObj((prevState) => (
-                {...prevState, [name]: value}
+                { ...prevState, [name]: value }
             ));
-            // commentObj[name] = optionObj[value];
         } else {
             setCommentObj((prevState) => (
-                {...prevState, [name]: value}
+                { ...prevState, [name]: value }
             ));
-        }   
+        }
+
         console.log(commentObj);
     }
-    
-    function handleCommentSubmit(event, restaurantId) {
+
+    const handleCommentSubmit = async (event, commentObj) => {
         event.preventDefault();
-        setCommentObj((prevState) => (
-            {...prevState, restaurant: restaurantId}
-        ));
-        console.log(commentObj);
+        event.target.reset();
+
+        const resp = await fetch('http://127.0.0.1:8000/viewset/review/', {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(commentObj),
+        })
+
+        const data = await resp.json();
+
+        if (data) {
+            setCommentObj({});
+            fetchRestaurants();
+            alert("Comment submitted!");
+        }
     };
 
     return (
@@ -89,7 +114,6 @@ const AppProvider = ({ children }) => {
                 route,
                 setRoute,
                 restaurants,
-                reviews,
                 restaurantId,
                 setRestaurantId,
                 commentObj,
