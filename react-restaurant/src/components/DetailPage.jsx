@@ -1,18 +1,16 @@
 import React, { useContext } from 'react';
+import { AppContext } from '../provider/AppProvider';
 
 import ReviewCard from './ReviewCard'
 import CommentForm from './CommentForm'
-import { AppContext } from '../provider/AppProvider';
+
 
 function DetailPage() {
 
     const { setRoute, restaurants, restaurantId } = useContext(AppContext);
 
-
     const curIndex = restaurants.findIndex((obj) => obj.id === restaurantId);
     const curReviews = restaurants[curIndex].reviews;
-
-
 
     curReviews.sort((a, b) => {
         let dateA = new Date(a.date);

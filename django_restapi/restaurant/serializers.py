@@ -7,6 +7,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['id', 'comment', 'rating', 'date', 'restaurant']
 
+
 class RestaurantSerializer(serializers.ModelSerializer):
     reviews = ReviewSerializer(many=True, read_only=True)
 

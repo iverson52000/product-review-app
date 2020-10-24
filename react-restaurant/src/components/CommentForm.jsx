@@ -1,15 +1,13 @@
 import React, { useContext } from 'react';
-
 import { AppContext } from '../provider/AppProvider';
 
 function CommentForm({ restaurantId }) {
-    // let commentObj = {};
     const { commentObj, handleCommentChange, handleCommentSubmit } = useContext(AppContext);
 
     return (
         <div className="mt-5">
             <h4>Leave a comment!</h4>
-            <form onSubmit={(event) => handleCommentSubmit(event, commentObj)}>
+            <form onSubmit={(event, commentObj) => handleCommentSubmit(event, commentObj)}>
                 <p>Rating</p>
                 <div className="form-check form-check-inline">
                     <input className="form-check-input" type="radio" name="rating" id="inlineRadio1" value="option1" onChange={(event) => handleCommentChange(event, commentObj, restaurantId)} />

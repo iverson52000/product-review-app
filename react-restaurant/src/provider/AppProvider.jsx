@@ -13,14 +13,15 @@ export const AppContext = createContext({
     setComment: () => { },
     commentObj: {},
     setCommentObj: () => { },
+    handleSignin: () => { },
 });
 
 const AppProvider = ({ children }) => {
-    const [route, setRoute] = useState("list");
+    const [route, setRoute] = useState("signin");
     const [restaurants, setRestaurants] = useState([]);
-    // const [reviews, setReviews] = useState([]);
     const [restaurantId, setRestaurantId] = useState(0);
     const [commentObj, setCommentObj] = useState({});
+    // const [reviews, setReviews] = useState([]);
 
     const fetchRestaurants = async () => {
         const resp = await fetch('http://127.0.0.1:8000/viewset/restaurant/');
@@ -38,29 +39,13 @@ const AppProvider = ({ children }) => {
     };
 
     useEffect(() => {
-
         fetchRestaurants();
-
-        // fetchRestaurants().then((data) => {
-        //     for (let item of data) {
-        //         const reviews = item.reviews;
-        //         item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
-        //     }
-        //     data.sort(function (a, b) {
-        //         return b.avgRating - a.avgRating;
-        //     })
-        //     setRestaurants(data);
-        // });
-
-        // const fetchReviews = async () => {
-        //     const resp = await fetch('http://127.0.0.1:8000/viewset/review/');
-        //     const respJson = await resp.json();
-        //     // console.log(respJson);
-        //     setReviews(respJson);
-        // };
-
-        // fetchReviews();
     }, []);
+
+    const handleSignin = async (event) => {
+        event.preventDefault();
+        setRoute("list");
+    };
 
     const handleCommentChange = (event, commentObj, restaurantId) => {
         if (!commentObj.hasOwnProperty('restaurant')) setCommentObj({ restaurant: restaurantId })
@@ -119,6 +104,7 @@ const AppProvider = ({ children }) => {
                 commentObj,
                 handleCommentChange,
                 handleCommentSubmit,
+                handleSignin,
             }}
         >
             {children}
