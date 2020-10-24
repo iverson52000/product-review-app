@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../provider/AppProvider';
 
-function CommentForm({ restaurantId }) {
-    const { commentObj, handleCommentChange, handleCommentSubmit } = useContext(AppContext);
+function CommentForm() {
+    const { commentObj, handleCommentChange, handleCommentSubmit, restaurantId } = useContext(AppContext);
 
     return (
         <div className="mt-5">

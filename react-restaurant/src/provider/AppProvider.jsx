@@ -70,9 +70,9 @@ const AppProvider = ({ children }) => {
                 { ...prevState, [name]: value }
             ));
         }
-
-        console.log(commentObj);
     }
+
+    useEffect(() => console.log(commentObj), [commentObj])
 
     const handleCommentSubmit = async (event, commentObj) => {
         event.preventDefault();
