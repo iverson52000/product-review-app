@@ -32,6 +32,11 @@ const AppProvider = ({ children }) => {
 
         for (let item of data) {
             const reviews = item.reviews;
+            reviews.sort((a, b) => {
+                let dateA = new Date(a.date);
+                let dateB = new Date(b.date);
+                return dateB - dateA;
+            });
             item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
         }
         data.sort(function (a, b) {

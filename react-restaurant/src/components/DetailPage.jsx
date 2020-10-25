@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../provider/AppProvider';
 
 import ReviewCard from './ReviewCard';
@@ -10,12 +10,6 @@ function DetailPage() {
 
     const curIndex = restaurants.findIndex((obj) => obj.id === restaurantId);
     const curReviews = restaurants[curIndex].reviews;
-
-    curReviews.sort((a, b) => {
-        let dateA = new Date(a.date);
-        let dateB = new Date(b.date);
-        return dateB - dateA;
-    })
 
     let ratingObj = {
         max: [0, -1],  //[rating, index]
@@ -37,11 +31,14 @@ function DetailPage() {
     }
 
 
+    useEffect(() => console.log(restaurants), [restaurants])
+
     if (restaurants.length === 0 || curReviews.length === 0) {
         return (
             <>
                 <button className="btn btn-link mt-3" onClick={() => { setRoute("list") }}>Back to list</button>
-                <h1>No reivews</h1>
+                <h1>{restaurants[curIndex].name}</h1>
+                <h3>No reivews</h3>
                 <CommentForm />
             </>
         )
