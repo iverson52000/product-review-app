@@ -7,7 +7,7 @@ function RestaurantCard({ restaurant }) {
     return (
         <div className="restaurantCard">
             <h4>{restaurant.name}</h4>
-            <h5>Average rating: {restaurant.avgRating.toFixed(1)}</h5>
+            <h5 >Average rating: <span className="avgRating">{restaurant.avgRating.toFixed(1)}</span></h5>
             <button className="btn btn-info"
                 onClick={() => {
                     setRoute("detail");

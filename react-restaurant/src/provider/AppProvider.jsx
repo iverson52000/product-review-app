@@ -14,6 +14,8 @@ export const AppContext = createContext({
     commentObj: {},
     setCommentObj: () => { },
     handleSignin: () => { },
+    handleSignout: () => { },
+    handleRegister: () => { },
 });
 
 const AppProvider = ({ children }) => {
@@ -45,6 +47,16 @@ const AppProvider = ({ children }) => {
     const handleSignin = async (event) => {
         event.preventDefault();
         setRoute("list");
+    };
+
+    const handleSignout = async (event) => {
+        event.preventDefault();
+        setRoute("signin");
+    };
+
+    const handleRegister = async (event) => {
+        event.preventDefault();
+        setRoute("signin");
     };
 
     const handleCommentChange = (event, commentObj, restaurantId) => {
@@ -105,6 +117,8 @@ const AppProvider = ({ children }) => {
                 handleCommentChange,
                 handleCommentSubmit,
                 handleSignin,
+                handleSignout,
+                handleRegister,
             }}
         >
             {children}

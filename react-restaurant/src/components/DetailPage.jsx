@@ -51,7 +51,9 @@ function DetailPage() {
             <>
                 <button className="btn btn-link mt-3" onClick={() => { setRoute("list") }}>Back to list</button>
                 <h1>{restaurants[curIndex].name}</h1>
-                <h4 className="mb-3">overall average rating: {restaurants[curIndex].avgRating.toFixed(1)}</h4>
+                <h4 className="mb-3">overall average rating:
+                    <span className="avgRating"> {restaurants[curIndex].avgRating.toFixed(1)} </span>
+                </h4>
                 <h4>Highest rated review</h4>
                 <ReviewCard curReview={curReviews[ratingObj.max[1]]} />
                 <h4>Lowest rated review</h4>
