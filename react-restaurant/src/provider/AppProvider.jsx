@@ -13,7 +13,11 @@ export const AppContext = createContext({
     setComment: () => { },
     commentObj: {},
     setCommentObj: () => { },
+    userObj: {},
+    handleSignChange: () => { },
     handleSignin: () => { },
+    token: "",
+    setToken: () => { },
     handleSignout: () => { },
     handleRegister: () => { },
 });
@@ -23,6 +27,8 @@ const AppProvider = ({ children }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantId, setRestaurantId] = useState(0);
     const [commentObj, setCommentObj] = useState({});
+    const [userObj, setUserObj] = useState({});
+    const [token, setToken] = useState("");
     // const [reviews, setReviews] = useState([]);
 
     const fetchRestaurants = async () => {
@@ -49,13 +55,56 @@ const AppProvider = ({ children }) => {
         fetchRestaurants();
     }, []);
 
-    const handleSignin = async (event) => {
+    const handleSignChange = (event) => {
+        const name = event.target.name;
+        let value = event.target.value;
+
+        setUserObj((prevState) => (
+            { ...prevState, [name]: value }
+        ));
+    }
+
+    const handleSignin = async (event, userObj) => {
         event.preventDefault();
-        setRoute("list");
+        try {
+            const resp = await fetch('http://127.0.0.1:8000/auth/login/', {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userObj),
+            })
+    
+            const data = await resp.json();
+
+            if ("non_field_errors" in data) alert("Wrong credential");
+            console.log(data);
+            if ("key" in data) {
+                setToken(data.key);
+                setRoute("list");
+            };
+
+        } catch {
+            alert("Something went wrong!");
+        }
     };
 
     const handleSignout = async (event) => {
         event.preventDefault();
+        try {
+            const resp = await fetch('http://127.0.0.1:8000/auth/logout/', {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+            })
+    
+            const data = await resp.json();
+
+            console.log(data);
+            setToken("");
+            alert("You've log out!");
+
+        } catch {
+            alert("Something went wrong!");
+        }
+
         setRoute("signin");
     };
 
@@ -121,7 +170,11 @@ const AppProvider = ({ children }) => {
                 commentObj,
                 handleCommentChange,
                 handleCommentSubmit,
+                userObj,
+                handleSignChange,
                 handleSignin,
+                token,
+                setToken,
                 handleSignout,
                 handleRegister,
             }}

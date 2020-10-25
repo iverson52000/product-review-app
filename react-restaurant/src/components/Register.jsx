@@ -15,7 +15,7 @@ function Register() {
                             <form className="form-signin" onSubmit={(event) => handleRegister(event)}>
                                 <div className="form-label-group">
                                     <label htmlFor="inputEmail">Username</label>
-                                    <input type="text" className="form-control" placeholder="Email address" required autoFocus />
+                                    <input type="text" className="form-control" placeholder="Username" required autoFocus />
                                 </div>
                                 <div className="form-label-group">
                                     <label htmlFor="inputPassword">Password</label>
