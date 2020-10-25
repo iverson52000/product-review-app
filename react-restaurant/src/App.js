@@ -21,14 +21,9 @@ function App() {
         ) : route === "register" ? (
           <Register />
         ) : route === "list" ? (
-          <> 
-            <h1 className="mt-5">Restaurant List</h1>
-            <RestaurantCardList />
-          </>
+          <RestaurantCardList />
         ) : (
-          <> 
-            <DetailPage/>
-          </>
+          <DetailPage/>
         )
       }
     </div>   

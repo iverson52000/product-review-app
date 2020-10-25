@@ -15,7 +15,7 @@ function RestaurantCard({ restaurant }) {
                 }}
             >
                 View Reviews
-        </button>
+            </button>
         </div>
     );
 }

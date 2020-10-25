@@ -54,7 +54,6 @@ function CommentForm() {
                 <button
                     type="submit"
                     className="btn btn-info"
-                    // onClick={}
                 >
                     Submit
                 </button>

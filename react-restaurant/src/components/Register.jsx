@@ -6,7 +6,7 @@ function Register() {
 
     return (
         <>
-            <h1 className="mt-5" style={{ "textAlign": "center" }}>Restaurant Review Webapp!</h1>
+            <h1 className="mt-5" style={{ "textAlign": "center" }}>Restaurant Review App!</h1>
             <div className="row">
                 <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
                     <div className="card card-signin my-5">

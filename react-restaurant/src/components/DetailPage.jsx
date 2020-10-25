@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../provider/AppProvider';
 
-import ReviewCard from './ReviewCard'
-import CommentForm from './CommentForm'
+import ReviewCard from './ReviewCard';
+import CommentForm from './CommentForm';
 
 
 function DetailPage() {
-
     const { setRoute, restaurants, restaurantId } = useContext(AppContext);
 
     const curIndex = restaurants.findIndex((obj) => obj.id === restaurantId);
@@ -43,7 +42,7 @@ function DetailPage() {
             <>
                 <button className="btn btn-link mt-3" onClick={() => { setRoute("list") }}>Back to list</button>
                 <h1>No reivews</h1>
-                <CommentForm restaurantId={restaurantId}/>
+                <CommentForm />
             </>
         )
     } else {
