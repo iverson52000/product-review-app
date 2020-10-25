@@ -36,7 +36,7 @@ function DetailPage() {
     if (restaurants.length === 0 || curReviews.length === 0) {
         return (
             <>
-                <button className="btn btn-link mt-3" onClick={() => { setRoute("list") }}>Back to list</button>
+                <button className="btn btn-link mt-3" onClick={() => setRoute("list")}>Back to list</button>
                 <h1>{restaurants[curIndex].name}</h1>
                 <h3>No reivews</h3>
                 <CommentForm />

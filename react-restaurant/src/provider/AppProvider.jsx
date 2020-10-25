@@ -14,6 +14,7 @@ export const AppContext = createContext({
     commentObj: {},
     setCommentObj: () => { },
     userObj: {},
+    setUserObj: {},
     handleSignChange: () => { },
     handleSignin: () => { },
     token: "",
@@ -80,6 +81,7 @@ const AppProvider = ({ children }) => {
             if ("key" in data) {
                 setToken(data.key);
                 setRoute("list");
+                setUserObj({});
             };
 
         } catch {
@@ -100,7 +102,6 @@ const AppProvider = ({ children }) => {
             console.log(data);
             setToken("");
             alert("You've log out!");
-
         } catch {
             alert("Something went wrong!");
         }
@@ -110,7 +111,27 @@ const AppProvider = ({ children }) => {
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        setRoute("signin");
+        try {
+            const resp = await fetch('http://127.0.0.1:8000/auth/registration/', {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userObj),
+            })
+    
+            const data = await resp.json();
+
+            // if ("non_field_errors" in data) alert("Wrong credential");
+            console.log(data);
+            if ("key" in data) {
+                // setToken(data.key);
+                alert("You've registered!");
+                setRoute("signin");
+                setUserObj({});
+            };
+
+        } catch {
+            alert("Something went wrong!");
+        }
     };
 
     const handleCommentChange = (event, commentObj, restaurantId) => {
@@ -173,8 +194,6 @@ const AppProvider = ({ children }) => {
                 userObj,
                 handleSignChange,
                 handleSignin,
-                token,
-                setToken,
                 handleSignout,
                 handleRegister,
             }}
