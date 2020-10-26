@@ -30,7 +30,6 @@ function DetailPage() {
         }
     }
 
-
     useEffect(() => console.log(restaurants), [restaurants])
 
     if (restaurants.length === 0 || curReviews.length === 0) {
@@ -45,7 +44,7 @@ function DetailPage() {
     } else {
         return (
             <>
-                <button className="btn btn-link mt-3" onClick={() => { setRoute("list") }}>Back to list</button>
+                <button className="btn btn-link mt-3 pl-0" onClick={() => setRoute("list")}>Back to list</button>
                 <h1>{restaurants[curIndex].name}</h1>
                 <h4 className="mb-3">overall average rating:
                     <span className="avgRating"> {restaurants[curIndex].avgRating.toFixed(1)} </span>

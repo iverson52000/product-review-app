@@ -3,7 +3,7 @@ import { AppContext } from '../provider/AppProvider';
 
 function RestaurantCard({ restaurant }) {
     const { setRoute, setRestaurantId } = useContext(AppContext);
-    // console.log(restaurant)
+
     return (
         <div className="restaurantCard">
             <h4>{restaurant.name}</h4>

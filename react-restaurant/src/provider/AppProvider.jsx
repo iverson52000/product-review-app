@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 
+
 export const AppContext = createContext({
     route: "",
     setRoute: () => { },
@@ -33,23 +34,26 @@ const AppProvider = ({ children }) => {
     // const [reviews, setReviews] = useState([]);
 
     const fetchRestaurants = async () => {
-        const resp = await fetch('http://127.0.0.1:8000/viewset/restaurant/');
-        const data = await resp.json();
-        // console.log(data);
+        try {
+            const resp = await fetch('http://127.0.0.1:8000/viewset/restaurant/');
+            const data = await resp.json();
 
-        for (let item of data) {
-            const reviews = item.reviews;
-            reviews.sort((a, b) => {
-                let dateA = new Date(a.date);
-                let dateB = new Date(b.date);
-                return dateB - dateA;
-            });
-            item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
+            for (let item of data) {
+                const reviews = item.reviews;
+                reviews.sort((a, b) => {
+                    let dateA = new Date(a.date);
+                    let dateB = new Date(b.date);
+                    return dateB - dateA;
+                });
+                item.avgRating = reviews.reduce((acc, obj) => acc + (obj.rating || 0), 0) / (reviews.length || 1);
+            }
+            data.sort(function (a, b) {
+                return b.avgRating - a.avgRating;
+            })
+            setRestaurants(data);
+        } catch(error) {
+            console.log(error);
         }
-        data.sort(function (a, b) {
-            return b.avgRating - a.avgRating;
-        })
-        setRestaurants(data);
     };
 
     useEffect(() => {
@@ -58,7 +62,7 @@ const AppProvider = ({ children }) => {
 
     const handleSignChange = (event) => {
         const name = event.target.name;
-        let value = event.target.value;
+        const value = event.target.value;
 
         setUserObj((prevState) => (
             { ...prevState, [name]: value }
@@ -73,18 +77,20 @@ const AppProvider = ({ children }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userObj),
             })
-    
+
             const data = await resp.json();
 
-            if ("non_field_errors" in data) alert("Wrong credential");
             console.log(data);
             if ("key" in data) {
                 setToken(data.key);
                 setRoute("list");
                 setUserObj({});
+            } else {
+                alert(Object.values(data));
             };
 
-        } catch {
+        } catch (error) {
+            console.log(error);
             alert("Something went wrong!");
         }
     };
@@ -96,13 +102,13 @@ const AppProvider = ({ children }) => {
                 method: "post",
                 headers: { "Content-Type": "application/json" },
             })
-    
-            const data = await resp.json();
 
+            const data = await resp.json();
             console.log(data);
             setToken("");
             alert("You've log out!");
-        } catch {
+        } catch (error) {
+            console.log(error);
             alert("Something went wrong!");
         }
 
@@ -117,20 +123,21 @@ const AppProvider = ({ children }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userObj),
             })
-    
+
             const data = await resp.json();
 
-            // if ("non_field_errors" in data) alert("Wrong credential");
             console.log(data);
             if ("key" in data) {
                 // setToken(data.key);
                 alert("You've registered!");
                 setRoute("signin");
                 setUserObj({});
+            } else {
+                alert(Object.values(data));
             };
 
-        } catch {
-            alert("Something went wrong!");
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -165,19 +172,28 @@ const AppProvider = ({ children }) => {
         event.preventDefault();
         event.target.reset();
 
-        const resp = await fetch('http://127.0.0.1:8000/viewset/review/', {
+        try {
+            const resp = await fetch('http://127.0.0.1:8000/viewset/review/', {
             method: "post",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token}`,
+            },
             body: JSON.stringify(commentObj),
-        })
+            })
 
-        const data = await resp.json();
+            const data = await resp.json();
 
-        if (data) {
-            setCommentObj({});
-            fetchRestaurants();
-            alert("Comment submitted!");
-        }
+            if ("detail" in data) {
+                alert(Object.values(data));
+            } else {
+                setCommentObj({});
+                fetchRestaurants();
+                alert("Comment submitted!");
+            }
+        } catch(error) {
+            console.log(error);
+        };
     };
 
     return (
@@ -196,6 +212,7 @@ const AppProvider = ({ children }) => {
                 handleSignin,
                 handleSignout,
                 handleRegister,
+                token,
             }}
         >
             {children}

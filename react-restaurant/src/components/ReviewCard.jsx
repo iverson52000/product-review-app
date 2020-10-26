@@ -2,7 +2,6 @@ import React from 'react';
 
 
 function ReviewCard({ curReview }) {
-
     return (
       <div className="reviewCard">
         <p>Rating: {curReview.rating}</p>

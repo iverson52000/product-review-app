@@ -5,7 +5,6 @@ import { AppContext } from '../provider/AppProvider';
 
 
 function RestaurantCardList() {
-    
     const { restaurants } = useContext(AppContext); 
 
     return (
