@@ -1,4 +1,10 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Restaurant Review App
+Restaurant Review App built with React, React Hooks, Context API, Bootstrap, React Bootstrap. 
+
+## Instructions
+1. Install Node.js and npm from https://www.npmjs.com/get-npm
+2. Run `npm install`
+3. Run `npm start`
 
 ## Available Scripts
 

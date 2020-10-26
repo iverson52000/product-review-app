@@ -22,7 +22,8 @@ function Signin() {
                                         className="form-control"
                                         placeholder="Username"
                                         onChange={(event) => handleSignChange(event, userObj)}
-                                        required autoFocus
+                                        required 
+                                        autoFocus
                                     />
                                 </div>
                                 <div className="form-label-group">
