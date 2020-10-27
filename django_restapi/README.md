@@ -32,4 +32,8 @@ Token based authentication
 
 `/auth/registration/`
 
+**Testing**
+
+Run `python manage.py test` to run the unit tests
+
 
