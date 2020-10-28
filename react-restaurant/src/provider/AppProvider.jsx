@@ -51,7 +51,7 @@ const AppProvider = ({ children }) => {
                 return b.avgRating - a.avgRating;
             })
             setRestaurants(data);
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
     };
@@ -88,7 +88,6 @@ const AppProvider = ({ children }) => {
             } else {
                 alert(Object.values(data));
             };
-
         } catch (error) {
             console.log(error);
             alert("Something went wrong!");
@@ -135,7 +134,6 @@ const AppProvider = ({ children }) => {
             } else {
                 alert(Object.values(data));
             };
-
         } catch (error) {
             console.log(error);
         }
@@ -174,12 +172,12 @@ const AppProvider = ({ children }) => {
 
         try {
             const resp = await fetch('http://127.0.0.1:8000/viewset/review/', {
-            method: "post",
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Token ${token}`,
-            },
-            body: JSON.stringify(commentObj),
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${token}`,
+                },
+                body: JSON.stringify(commentObj),
             })
 
             const data = await resp.json();
@@ -191,7 +189,7 @@ const AppProvider = ({ children }) => {
                 fetchRestaurants();
                 alert("Comment submitted!");
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         };
     };

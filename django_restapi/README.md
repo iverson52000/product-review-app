@@ -12,7 +12,7 @@ Persmission: IsAuthenticatedOrReadOnly
 
 (GET, POST) `/viewset/restaurant/`
 
-(GET, POST) `/viewset/restaurant/:id/`
+(GET, PUT, PATCH, DELETE) `/viewset/restaurant/:id/`
 
 **Review**
 
@@ -20,7 +20,9 @@ Persmission: IsAuthenticatedOrReadOnly
 
 (GET, POST) `/viewset/review/`
 
-(GET, POST) `/viewset/review/:id/`
+(GET, PUT, PATCH, DELETE) 
+
+`/viewset/review/:id/`
 
 **Authentication**
 
