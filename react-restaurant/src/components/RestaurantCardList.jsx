@@ -9,7 +9,7 @@ function RestaurantCardList() {
 
     return (
       <>
-         <h1 className="mt-5">Restaurant List</h1>
+         <h1 className="mt-5">Product List</h1>
         {restaurants.map((restaurant, i) => {
             return <RestaurantCard restaurant={restaurant} key={i}/>
         })}

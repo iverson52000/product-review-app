@@ -1,4 +1,4 @@
-# Restaurant Review App Backend API
+# Product Review App Backend API
 The backend REST API built in Django, Django Rest Framework, Django Rest Auth, for Restaurant Review App 
 
 ## REST API end points

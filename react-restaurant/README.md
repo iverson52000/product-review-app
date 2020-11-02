@@ -1,5 +1,5 @@
-# Restaurant Review App
-Restaurant Review App built with React, React Hooks, Context API, Bootstrap, and React Bootstrap. 
+# Product Review App
+Product Review App built with React, React Hooks, Context API, Bootstrap, and React Bootstrap. 
 
 ## Instructions
 1. Install Node.js and npm from https://www.npmjs.com/get-npm
